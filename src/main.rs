@@ -2,12 +2,14 @@ pub mod cpu;
 pub mod opcodes;
 pub mod bus;
 pub mod cartridge;
+pub mod trace;
 
 use cpu::Mem;
 use cpu::CPU;
-use rand::Rng;
 use bus::Bus;
 use cartridge::Rom;
+use trace::trace;
+//use rand::Rng;
 
 use sdl2::event::Event;
 use sdl2::EventPump;
@@ -106,16 +108,16 @@ fn main() {
   let mut rng = rand::thread_rng();
 
   cpu.run_with_callback(move |cpu| {
-    handle_user_input(cpu, &mut event_pump);
-    cpu.mem_write(0xfe, rng.gen_range(1, 16));
+    println!("{}", trace(cpu));
+    //handle_user_input(cpu, &mut event_pump);
+    //cpu.mem_write(0xfe, rng.gen_range(1, 16));
 
-    if read_screen_state(cpu, &mut screen_state) {
-      texture.update(None, &screen_state, 32 * 3).unwrap();
-      canvas.copy(&texture, None, None).unwrap();
-      canvas.present();
-    }
+    //if read_screen_state(cpu, &mut screen_state) {
+    //  texture.update(None, &screen_state, 32 * 3).unwrap();
+    //  canvas.copy(&texture, None, None).unwrap();
+    //  canvas.present();
+    //}
 
-    ::std::thread::sleep(std::time::Duration::new(0, 70_000));
+    //::std::thread::sleep(std::time::Duration::new(0, 70_000));
   });
-
 }
