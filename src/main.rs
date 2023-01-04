@@ -16,7 +16,7 @@ use sdl2::EventPump;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
 use sdl2::pixels::PixelFormatEnum;
-use std::time::Duration;
+//use std::time::Duration;
 
 #[macro_use]
 extern crate lazy_static;
@@ -97,15 +97,17 @@ fn main() {
   let mut texture = creator
     .create_texture_target(PixelFormatEnum::RGB24, 32, 32).unwrap();
 
-  let bytes: Vec<u8> = std::fs::read("../snake.nes").unwrap();
+  //let bytes: Vec<u8> = std::fs::read("../snake.nes").unwrap();
+  let bytes: Vec<u8> = std::fs::read("nestest.nes").unwrap();
   let rom = Rom::new(&bytes).unwrap();
 
   let bus = Bus::new(rom);
   let mut cpu = CPU::new(bus);
   cpu.reset();
+  cpu.program_counter = 0xc000;
 
-  let mut screen_state = [0 as u8; 32 * 3 * 32];
-  let mut rng = rand::thread_rng();
+  //let mut screen_state = [0 as u8; 32 * 3 * 32];
+  //let mut rng = rand::thread_rng();
 
   cpu.run_with_callback(move |cpu| {
     println!("{}", trace(cpu));
