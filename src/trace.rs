@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 use std::fmt::Write;
 
-pub fn trace(cpu: &CPU) -> String {
+pub fn trace(cpu: &mut CPU) -> String {
   //  byte_codes
   let mut byte_codes = String::new();
   let ref opcodes: HashMap<u8, &'static opcodes::OpCode> = *opcodes::OPCODES_MAP;
